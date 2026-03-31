@@ -25,7 +25,7 @@ Para esta entrega, foi considerado o snapshot disponivel em `2026-03-16`.
 
 A arquitetura do projeto foi organizada em camadas para facilitar manutencao, reuso e onboarding.
 
-### 2.1 Ingestao
+### 3.1 Ingestao
 
 Os arquivos brutos de CNPJ sao armazenados em `data/raw/`. Para otimizar o tempo de execucao local, o pipeline gera amostras de aproximadamente 10.000 linhas para os arquivos maiores:
 
@@ -36,7 +36,7 @@ Os arquivos brutos de CNPJ sao armazenados em `data/raw/`. Para otimizar o tempo
 
 Arquivos menores de referencia, como `CNAE`, `Municipios`, `Naturezas` e `Qualificacoes`, sao copiados integralmente.
 
-### 2.2 Transformacao com dbt
+### 3.2 Transformacao com dbt
 
 O `dbt` foi estruturado nas seguintes camadas:
 
@@ -55,7 +55,7 @@ Modelos implementados:
 - `dim_empresa`
 - `fact_empresas_ativas`
 
-### 2.3 Snapshot
+### 3.3 Snapshot
 
 Foi implementado um `snapshot` SCD Type 2 para historizar alteracoes de `capital_social` no modelo de empresas.
 
@@ -65,7 +65,7 @@ Snapshot implementado:
 
 Essa abordagem permite preservar historico de mudancas em um atributo critico de negocio, simulando uma necessidade comum em pipelines de dados corporativos.
 
-### 2.4 Orquestracao com Prefect
+### 3.4 Orquestracao com Prefect
 
 O fluxo em `flows/pipeline_flow.py` executa:
 
@@ -77,7 +77,7 @@ Essa orquestracao garante repetibilidade e aproxima a solucao de um ambiente ope
 
 ## 4. Modelagem Analitica
 
-### 3.1 Dimensoes
+### 4.1 Dimensoes
 
 #### `dim_cnae`
 
@@ -100,7 +100,7 @@ Essa dimensao concentra atributos como:
 - UF e municipio
 - indicativos de Simples e MEI
 
-### 3.2 Fato
+### 4.2 Fato
 
 #### `fact_empresas_ativas`
 
@@ -153,7 +153,7 @@ Essas macros reduzem repeticao, aumentam legibilidade e facilitam manutencao fut
 
 Embora a implementacao local utilize `DuckDB`, a estrutura foi pensada para migracao para `BigQuery` com minima friccao.
 
-### 6.1 Organizacao por camadas
+### 7.1 Organizacao por camadas
 
 Em BigQuery, eu manteria a separacao por datasets ou schemas logicos, por exemplo:
 
@@ -169,7 +169,7 @@ Essa separacao ajuda em:
 - observabilidade
 - controle de custo por camada
 
-### 6.2 Partitioning
+### 7.2 Partitioning
 
 Minha recomendacao seria particionar tabelas grandes e consultadas com frequencia por colunas temporais relevantes.
 
@@ -181,7 +181,7 @@ Exemplos:
 
 No caso deste projeto, a tabela de snapshot e futuras tabelas historicas se beneficiariam mais diretamente de particionamento por data.
 
-### 6.3 Clustering
+### 7.3 Clustering
 
 Minha recomendacao de clustering para consultas analiticas seria priorizar colunas com alto uso em filtros e joins, por exemplo:
 
