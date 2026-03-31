@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: dim_cnae
+    description: Dimensao de codigos CNAE.
+    columns:
+      - name: cnae_codigo
+        tests:
+          - not_null
+          - unique
+      - name: cnae_descricao
+        tests:
+          - not_null
+
+  - name: dim_empresa
+    description: Dimensao consolidada de empresas e estabelecimento matriz.
+    columns:
+      - name: cnpj_basico
+        tests:
+          - not_null
+          - unique
+      - name: natureza_juridica
+        tests:
+          - not_null
+
+  - name: fact_empresas_ativas
+    description: Fato consolidando metricas cadastrais e operacionais por empresa.
+    columns:
+      - name: cnpj_basico
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('dim_empresa')
+                field: cnpj_basico
+
+      - name: cnae_fiscal_principal
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_cnae')
+                field: cnae_codigo
+
+      - name: situacao_cadastral
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['01', '02', '03', '04', '08']
+
+      - name: capital_social
+        tests:
+          - not_null

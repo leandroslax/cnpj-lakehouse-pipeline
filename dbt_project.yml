@@ -1,0 +1,26 @@
+name: 'cnpj_lakehouse_pipeline'
+version: '1.0.0'
+profile: 'cnpj_lakehouse_pipeline'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  cnpj_lakehouse_pipeline:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      dim:
+        +materialized: table
+      fact:
+        +materialized: incremental
