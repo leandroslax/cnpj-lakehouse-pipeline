@@ -180,7 +180,7 @@ python flows/pipeline_flow.py
 
 O diagrama abaixo mostra o lineage principal do pipeline, conectando os modelos de staging, a dimensao consolidada de empresa e a fato analitica principal.
 
-![Lineage do pipeline](docs/images/lineage_fact_empresas_ativas.png)
+![Lineage do pipeline](docs/images/lineage_fact_empresas_ativas_v2.png)
 
 ## Observacoes
 
