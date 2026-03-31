@@ -13,7 +13,15 @@ O objetivo principal foi construir um fluxo reprodutivel para:
 - manter historico de alteracoes relevantes com `snapshot`
 - orquestrar a execucao ponta a ponta
 
-## 2. Arquitetura da Solucao
+## 2. Fonte de Dados
+
+Os dados utilizados neste projeto foram obtidos a partir do portal de Dados Abertos da Receita Federal - CNPJ:
+
+- https://dados-abertos-rf-cnpj.casadosdados.com.br/
+
+Para esta entrega, foi considerado o snapshot disponivel em `2026-03-16`.
+
+## 3. Arquitetura da Solucao
 
 A arquitetura do projeto foi organizada em camadas para facilitar manutencao, reuso e onboarding.
 
@@ -67,7 +75,7 @@ O fluxo em `flows/pipeline_flow.py` executa:
 
 Essa orquestracao garante repetibilidade e aproxima a solucao de um ambiente operacional real.
 
-## 3. Modelagem Analitica
+## 4. Modelagem Analitica
 
 ### 3.1 Dimensoes
 
@@ -111,7 +119,7 @@ Campos e metricas principais:
 
 A fato foi configurada com materializacao `incremental` e `unique_key = cnpj_basico`, evitando duplicidade em reprocessamentos.
 
-## 4. Qualidade de Dados
+## 5. Qualidade de Dados
 
 A camada de qualidade foi implementada com testes automatizados no `dbt`.
 
@@ -131,7 +139,7 @@ Ao todo, o projeto conta com 12 testes passando, cobrindo:
 
 Durante o desenvolvimento, um problema real de duplicidade na fato incremental foi identificado e resolvido com configuracao explicita de `unique_key`, reforcando o papel dos testes como mecanismo de controle de regressao.
 
-## 5. Macros e Reuso
+## 6. Macros e Reuso
 
 Foram criadas macros Jinja para encapsular regras recorrentes de limpeza e padronizacao:
 
@@ -141,7 +149,7 @@ Foram criadas macros Jinja para encapsular regras recorrentes de limpeza e padro
 
 Essas macros reduzem repeticao, aumentam legibilidade e facilitam manutencao futura.
 
-## 6. Estrategia para BigQuery
+## 7. Estrategia para BigQuery
 
 Embora a implementacao local utilize `DuckDB`, a estrutura foi pensada para migracao para `BigQuery` com minima friccao.
 
@@ -184,7 +192,7 @@ Minha recomendacao de clustering para consultas analiticas seria priorizar colun
 
 Isso tende a reduzir leitura desnecessaria de blocos e melhorar tempo de resposta em consultas filtradas.
 
-## 7. Analise de FinOps
+## 8. Analise de FinOps
 
 FinOps, neste contexto, significa projetar o pipeline para minimizar custo de processamento e leitura no BigQuery sem comprometer qualidade e governanca.
 
@@ -224,7 +232,7 @@ As decisoes de FinOps tambem exigem equilibrio:
 
 Por isso, a recomendacao e sempre alinhar modelagem com os padroes reais de consulta do negocio.
 
-## 8. Onboarding e Operacao
+## 9. Onboarding e Operacao
 
 Para facilitar onboarding de novos colaboradores, o projeto foi mantido com:
 
@@ -243,7 +251,7 @@ Fluxo sugerido para um novo colaborador:
 5. executar `dbt debug`
 6. executar `python flows/pipeline_flow.py`
 
-## 9. Conclusao
+## 10. Conclusao
 
 A solucao entregue atende aos requisitos centrais do desafio com uma implementacao local simples, mas aderente a boas praticas de engenharia de dados.
 

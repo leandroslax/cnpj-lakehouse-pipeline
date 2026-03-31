@@ -45,6 +45,15 @@ Este projeto implementa um fluxo de engenharia de dados com foco em:
 └── dbt_project.yml
 ```
 
+## Fonte de Dados
+
+Os dados utilizados neste projeto foram obtidos a partir do portal:
+
+- Dados Abertos da Receita Federal - CNPJ
+- https://dados-abertos-rf-cnpj.casadosdados.com.br/
+
+Para esta entrega, foi considerado o snapshot disponivel em `2026-03-16`.
+
 ## Dados Utilizados
 
 O pipeline usa amostras locais derivadas dos arquivos publicos de CNPJ:
