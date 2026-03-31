@@ -114,12 +114,14 @@ Macros criadas para apoiar limpeza e padronizacao:
 
 ## Testes
 
-Foram implementados testes de:
+Foram implementados testes genericos do dbt, declarados em `models/marts/marts.yml`:
 
 - `not_null`
 - `unique`
 - `relationships`
 - `accepted_values`
+
+A pasta `tests/` esta reservada para testes SQL customizados (singular tests). Neste projeto, ela permanece vazia porque os testes atuais estao definidos no arquivo YAML de schema.
 
 ## Snapshot
 
