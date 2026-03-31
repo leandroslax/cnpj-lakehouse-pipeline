@@ -54,7 +54,7 @@ O pipeline usa amostras locais derivadas dos arquivos publicos de CNPJ:
 - `CNAE`
 - tabelas auxiliares de apoio, como `Municipios`, `Naturezas` e `Qualificacoes`
 
-As amostras sao geradas a partir dos arquivos brutos em `data/raw/`.
+As amostras sao geradas a partir dos arquivos brutos em `data/raw/`. Nesta versao, a amostragem foi refinada para usar um conjunto casado de `cnpj_basico`, aumentando a coerencia entre `empresas`, `estabelecimentos`, `socios` e `simples`.
 
 ## Modelagem
 
@@ -67,6 +67,12 @@ Padronizacao e tipagem dos arquivos brutos:
 - `stg_socios`
 - `stg_simples`
 - `stg_cnaes`
+
+### Camada intermediate
+
+Modelos de consolidacao para desacoplar regras analiticas das camadas de consumo:
+
+- `int_empresa_metricas`
 
 ### Camada marts
 
@@ -84,6 +90,8 @@ Dimensoes e fato analitico:
 - `12` testes de qualidade passando
 - `3` macros Jinja reutilizaveis
 - flow no `Prefect` para gerar amostras e executar `dbt run` + `dbt test`
+- amostragem casada por `cnpj_basico` para aumentar consistencia entre os datasets
+- camada `intermediate` para consolidacao de metricas por empresa
 
 ## Macros
 
@@ -111,8 +119,9 @@ O snapshot `snp_empresas_capital_social` rastreia mudancas no campo `capital_soc
 O flow executa:
 
 1. geracao das amostras locais
-2. `dbt run`
-3. `dbt test`
+2. regeneracao de amostras casadas para maior coerencia entre os datasets
+3. `dbt run`
+4. `dbt test`
 
 Arquivo principal: `flows/pipeline_flow.py`
 
@@ -164,4 +173,5 @@ O diagrama abaixo mostra o lineage principal do pipeline, conectando os modelos 
 
 - o projeto foi desenhado para rodar localmente com `DuckDB`
 - a ingestao usa amostras para reduzir tempo de execucao
+- a amostragem foi ajustada para melhorar o relacionamento entre os datasets usados no desafio
 - a estrutura foi pensada para facilitar futura migracao para `BigQuery`
