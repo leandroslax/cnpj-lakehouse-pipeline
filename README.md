@@ -30,7 +30,8 @@ Este projeto implementa um fluxo de engenharia de dados com foco em:
 │   └── raw/
 ├── docs/
 ├── flows/
-│   └── pipeline_flow.py
+│   ├── pipeline_flow.py
+│   └── regenerate_matched_samples.py
 ├── macros/
 ├── models/
 │   ├── intermediate/
@@ -38,6 +39,7 @@ Este projeto implementa um fluxo de engenharia de dados com foco em:
 │   │   ├── dim/
 │   │   └── fact/
 │   └── staging/
+├── seeds/
 ├── snapshots/
 ├── tests/
 └── dbt_project.yml
