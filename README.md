@@ -154,6 +154,12 @@ dbt snapshot
 python flows/pipeline_flow.py
 ```
 
+## Lineage
+
+O diagrama abaixo mostra o lineage principal do pipeline, conectando os modelos de staging, a dimensao consolidada de empresa e a fato analitica principal.
+
+![Lineage do pipeline](docs/images/lineage_fact_empresas_ativas.png)
+
 ## Observacoes
 
 - o projeto foi desenhado para rodar localmente com `DuckDB`
